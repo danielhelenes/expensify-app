@@ -2,35 +2,58 @@
 //entry = where does our application start (kick out)
 //output = where do we put it and how it's its name
 //important! when we set up the dev-server => if we delete bundle.js, the app still runs normally with dev-server. if we wqant to add bundle again we need to run yarn run build (that will build webpack again with the bundle file. ) to setup the dev-server we just needed to toss in the path to the public folder in this file.
+// source maps = just to show it correctly on the console. we set up for the js that is compiled into bundle.js, and now for the css that it's being compiled to the styles.css
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = { //node.js thing to be able to export what's inside of this object
-entry: './src/app.js',
-  output:{
-    path: path.join(__dirname,'public'), //where u want to put the output bundle.js - it has to be a unique path. /Users/danielferro/Desktop/tcaer/react-course-projects/indecision-app/public
-    filename: 'bundle.js' //it can be any name
-  },
-  module: {
-    rules: [{
-      loader: 'babel-loader',
-      test: /\.js$/,
-      exclude: /node_modules/
-    }, {
-      test: /\.s?css$/,
-      use: [ //allow us to set up an array of loaders
-        'style-loader',
-        'css-loader',
-        'sass-loader'
-      ]
-    }]
-  },
-  //devtool will allow us to easily debug
-  devtool: 'cheap-module-eval-source-map',
-  devServer: {
-    contentBase: path.join(__dirname,'public'),
-    historyApiFallback: true
-  }
-};
+
+module.exports = (env) => {
+  const isProduction = env === 'production';
+  const CSSExtract = new ExtractTextPlugin('styles.css');
+
+  console.log('env', env);
+  return { //node.js thing to be able to export what's inside of this object
+  entry: './src/app.js',
+    output:{
+      path: path.join(__dirname,'public'), //where u want to put the output bundle.js - it has to be a unique path. /Users/danielferro/Desktop/tcaer/react-course-projects/indecision-app/public
+      filename: 'bundle.js' //it can be any name
+    },
+    module: {
+      rules: [{
+        loader: 'babel-loader',
+        test: /\.js$/,
+        exclude: /node_modules/
+      }, {
+        test: /\.s?css$/,
+        use: CSSExtract.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
+        })
+      }]
+    },
+    plugins: [
+      CSSExtract
+    ],
+    //devtool will allow us to easily debug
+    devtool: isProduction ? 'source-map' : 'inline-source-map',
+    devServer: {
+      contentBase: path.join(__dirname,'public'),
+      historyApiFallback: true
+    }
+  };
+}
 
 //loader
 
