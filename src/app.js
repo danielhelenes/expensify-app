@@ -25,19 +25,6 @@ console.log('running well');
 
 const store = configureStore(); // this is the same of createStore(combineReducers({reducers}).
 
-
-store.dispatch(addExpense({ description: 'Water Bill', amount: 4500, createdAt: 2000  }));
-store.dispatch(addExpense({ description: 'Gas Bill', createdAt: 1000 }));
-store.dispatch(addExpense({ description: 'Rent', amount: 109500 }));
-
-
-// store.dispatch(setTextFilter('water'));
-
-
-const state = store.getState(); //getting the actual state with all the objects that have been added.
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
-
 const jsx = (
   <Provider store = {store}>
     <AppRouter />
