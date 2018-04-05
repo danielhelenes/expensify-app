@@ -1,6 +1,9 @@
 {
   "name": "boilerplate",
   "version": "1.0.0",
+  "engines": {
+    "node": "9.10.1"
+  },
   "main": "index.js",
   "author": "Daniel Ferro",
   "license": "MIT",
