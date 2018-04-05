@@ -2,6 +2,7 @@
 
 git init - Create a new git repo
 git status - View the changes to your project
-git add - Add files to staging area
+git add -m ""- Add files to staging area
 git commit - Creates a new commit with files from staging area
 git log - View recent commits
+git commit -am ""- shortcut when u only have modified files. new written files, you should write git add

@@ -15,7 +15,7 @@ module.exports = (env) => {
   return { //node.js thing to be able to export what's inside of this object
   entry: './src/app.js',
     output:{
-      path: path.join(__dirname,'public'), //where u want to put the output bundle.js - it has to be a unique path. /Users/danielferro/Desktop/tcaer/react-course-projects/indecision-app/public
+      path: path.join(__dirname,'public', 'dist'), //where u want to put the output bundle.js - it has to be a unique path. /Users/danielferro/Desktop/tcaer/react-course-projects/indecision-app/public
       filename: 'bundle.js' //it can be any name
     },
     module: {
@@ -49,8 +49,9 @@ module.exports = (env) => {
     //devtool will allow us to easily debug
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
-      contentBase: path.join(__dirname,'public'),
-      historyApiFallback: true
+      contentBase: path.join(__dirname, 'public'),
+      historyApiFallback: true,
+      publicPath: '/dist/'
     }
   };
 }
