@@ -4,14 +4,19 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment';
+import numeral from 'numeral';
 
 const ExpenseListItem = ({ id, description, amount, createdAt, note }) =>  ( //props is not defined. console logs each expenses object with amount, createdat, etc... but not expenses in general  (it lists all the objects of items)
   <div>
     <Link to={`/edit/${id}`}>
       <h3>{description}</h3>
     </Link>
-    <p>{amount} - {createdAt} / {note && `/ ${note}`}</p>
+    <p>
+      {numeral(amount / 100).format('$0,0.00')}
+      -
+      {moment(createdAt).format('Do MMMM, YYYY')}
+    </p>
   </div>
 );
 
