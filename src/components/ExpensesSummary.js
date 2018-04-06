@@ -7,18 +7,19 @@ import numeral from 'numeral';
 //expense count = how many expenses are visible
 // expenses total =  what's the total of visible expenses
 
-const ExpensesSummary = (props) => (
+export const ExpensesSummary = ({expenses, total}) => ( //I used props before. and then props.expenses.length = also possible.
   <div>
-    <h2>Viewing {props.expenses.length} expenses totalling {numeral(props.total / 100).format('$0,0.00')}</h2>
+    <h2>Viewing {expenses.length === 1 ? `${expenses.length} expense`: `${expenses.length} expenses`} totalling {numeral(total / 100).format('$0,0.00')}</h2>
   </div>
 );
 
 // numeral(props.total / 100).format('$0,0.00')
 
 const mapStateToProps = (state) => {
+  const visibleExpenses = selectExpenses(state.expenses, state.filters);
   return {
-    expenses: selectExpenses(state.expenses, state.filters),
-    total: getExpensesTotal(selectExpenses(state.expenses, state.filters))
+    expenses: visibleExpenses, //I could get visibleExpenses.length here. this would make things change in the component and test
+    total: getExpensesTotal(visibleExpenses)
   }
 }
 
