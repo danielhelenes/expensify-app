@@ -21,6 +21,7 @@ import getVisibleExpenses from './selectors/expenses';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
+import './firebase/firebase';
 console.log('running well');
 
 const store = configureStore(); // this is the same of createStore(combineReducers({reducers}).
