@@ -6,13 +6,15 @@ import AddExpensePage from '../components/AddExpensePage';
 import EditExpensePage from '../components/EditExpensePage';
 import ExpenseDashboardPage from '../components/ExpenseDashboardPage';
 import NotFoundPage from '../components/NotFoundPage';
+import LoginPage from '../components/LoginPage';
 
 const AppRouter = () => ( //the API from BrowserRouter expects us to only have the length of 0 or 1 inside. that's why we put things in a div.
     <BrowserRouter>
       <div>
         <Header />
         <Switch>
-          <Route path="/" component={ExpenseDashboardPage} exact={true}/>
+          <Route path="/" component={LoginPage} exact={true}/>
+          <Route path="/dashboard" component={ExpenseDashboardPage}/>
           <Route path="/create" component={AddExpensePage}/>
           <Route path="/edit/:id" component={EditExpensePage}/>
           <Route path="/help" component={HelpPage}/>
