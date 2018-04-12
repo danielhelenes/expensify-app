@@ -8,6 +8,7 @@ export default (state = expensesReducerDefaultState, action) => {
   switch (action.type) {
     case 'ADD_EXPENSE':
       return [...state, action.expense];
+
     case 'REMOVE_EXPENSE':
       return state.filter((expense) => {//this is the same as cur. we map through the cur object that state has. we look for the exact id inside of all the objects that has the same id of the one we are deleting, so we can delete it.
         return expense.id !== action.id;
@@ -21,6 +22,9 @@ export default (state = expensesReducerDefaultState, action) => {
         return expense;
       }
     });
+
+    case 'SET_EXPENSES':
+      return action.expenses;
 
     default:
       return state;

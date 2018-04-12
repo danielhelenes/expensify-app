@@ -19,7 +19,6 @@ import database from '../firebase/firebase';
   expense
 });
 
-
 export const startAddExpense = (expenseData = {}) => {
   return (dispatch) => { //this only works because of redux-thunk
     const {
@@ -54,17 +53,77 @@ export const addExpense = (anything = {}) => ({
 })*/
 
 
-// REMOVE EXPENSES
 
-export const removeExpense = ({id} = {}) => ({ //question: Why do we need the default here?
+// REMOVE_EXPENSE
+export const removeExpense = ({ id } = {}) => ({
   type: 'REMOVE_EXPENSE',
   id
 });
 
-// EDIT EXPENSES
+// export const startRemoveExpense = ({ id } = {}) => {
+//   return (dispatch, getState) => {
+//     const uid = getState().auth.uid;
+//     return database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
+//       dispatch(removeExpense({ id }));
+//     });
+//   };
+// };
 
-export const editExpense = (id, updates) => ({ //we don't need defaults here.
+// EDIT_EXPENSE
+export const editExpense = (id, updates) => ({
   type: 'EDIT_EXPENSE',
   id,
   updates
 });
+
+// export const startEditExpense = (id, updates) => {
+//   return (dispatch, getState) => {
+//     const uid = getState().auth.uid;
+//     return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
+//       dispatch(editExpense(id, updates));
+//     });
+//   };
+// };
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+  type: 'SET_EXPENSES',
+  expenses
+});
+
+//start set expenses
+
+export const startSetExpenses = () => {
+  return (dispatch) => {
+    return database.ref('expenses').once('value').then((snapshot) => { //snapshots brings all objects, not arras. we need to convert the data into an array. 
+      const expenses = [];
+        snapshot.forEach((childSnapshot) => { //childSnapshot are the current objects
+          expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+          });
+        });
+       dispatch(setExpenses(expenses));
+    });
+  };
+};
+
+
+//
+// export const startSetExpenses = () => {
+//   return (dispatch, getState) => {
+//     const uid = getState().auth.uid;
+//     return database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => {
+//       const expenses = [];
+//
+//       snapshot.forEach((childSnapshot) => {
+//         expenses.push({
+//           id: childSnapshot.key,
+//           ...childSnapshot.val()
+//         });
+//       });
+//
+//       dispatch(setExpenses(expenses));
+//     });
+//   };
+// };
