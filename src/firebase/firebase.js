@@ -1,4 +1,4 @@
-//importnat: update doesn't update childs, only the root. we can provide ref as jey and new value as a value.overcome: 'location/city'
+//importnat: update doesn't update childs, only the root. we can provide ref as key and new value as a value.overcome: 'location/city'
 
 //difference between promises (set, update...) and callback. callback can run infinite times. promises only runs once. you cannot tell the server to update you on changes with promises, because it only rejects or resolves it once.
 

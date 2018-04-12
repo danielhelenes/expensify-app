@@ -3,16 +3,16 @@ import { shallow } from 'enzyme';
 import { EditExpensePage } from '../../components/EditExpensePage';
 import expenses from '../fixtures/expenses';
 
-let editExpense, removeExpense, history, wrapper;
+let startEditExpense, startRemoveExpense, history, wrapper;
 
 beforeEach(() => { //jest: lifecycle method. runs this callback function everytime before each test runs.
-  editExpense = jest.fn();
-  removeExpense = jest.fn();
+  startEditExpense = jest.fn();
+  startRemoveExpense = jest.fn();
   history = { push: jest.fn() }; //push is an object
   wrapper = shallow(
     <EditExpensePage
-      editExpense={editExpense}
-      removeExpense={removeExpense}
+      startEditExpense={startEditExpense}
+      startRemoveExpense={startRemoveExpense}
       history={history}
       expense={expenses[2]}
     />
@@ -33,7 +33,7 @@ test('should call spys with correct data when form is submitted', () => {
   };
   wrapper.find('ExpenseForm').prop('onSubmit')(editedData); //didn't understand why he passed expenses[2] here. shouldn't have an id, should it?
   expect(history.push).toHaveBeenLastCalledWith('/');
-  expect(editExpense).toHaveBeenLastCalledWith(expenses[2].id, editedData);
+  expect(startEditExpense).toHaveBeenLastCalledWith(expenses[2].id, editedData);
 });
 
 
@@ -43,7 +43,7 @@ test('should call spys with correct data when form is submitted', () => {
 test('should call spys with correct data when button is clicked', () => {
   wrapper.find('button').simulate('click');
   expect(history.push).toHaveBeenLastCalledWith('/');
-  expect(removeExpense).toHaveBeenLastCalledWith({id: expenses[2].id});
+  expect(startRemoveExpense).toHaveBeenLastCalledWith({id: expenses[2].id});
 });
 
 

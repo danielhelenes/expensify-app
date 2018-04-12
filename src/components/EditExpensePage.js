@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux'; //connect to send this data to the store.
 import ExpenseForm from './ExpenseForm';// ExpenseForm to get data from ExpenseForm and use the props. (dispatch, history, location, match, etc.... and expense!)
-import { editExpense, removeExpense } from '../actions/expenses';
+import { startEditExpense, startRemoveExpense } from '../actions/expenses';
 
 
 export class EditExpensePage extends React.Component {
   onSubmit = (expense) => {
-    this.props.editExpense(this.props.expense.id, expense); //can also use props.math.params.id
+    this.props.startEditExpense(this.props.expense.id, expense); //can also use props.math.params.id
     this.props.history.push('/');
   };
   onRemove = () => {
-    this.props.removeExpense({id: this.props.expense.id});
+    this.props.startRemoveExpense({id: this.props.expense.id});
     this.props.history.push('/');
   };
   render() {
@@ -36,8 +36,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-    editExpense: (expense) => dispatch(editExpense(expense)),
-    removeExpense: (data) => dispatch(removeExpense(data)) //question - didnt understand why to pass props and data. 
+    startEditExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
+    startRemoveExpense: (data) => dispatch(startRemoveExpense(data)) //question - didnt understand why to pass props and data.
 })
 
 
