@@ -32,7 +32,7 @@ test('should call spys with correct data when form is submitted', () => {
     description: 'description_edited'
   };
   wrapper.find('ExpenseForm').prop('onSubmit')(editedData); //didn't understand why he passed expenses[2] here. shouldn't have an id, should it?
-  expect(history.push).toHaveBeenLastCalledWith('/');
+  expect(history.push).toHaveBeenLastCalledWith('/dashboard');
   expect(startEditExpense).toHaveBeenLastCalledWith(expenses[2].id, editedData);
 });
 
@@ -42,7 +42,7 @@ test('should call spys with correct data when form is submitted', () => {
 
 test('should call spys with correct data when button is clicked', () => {
   wrapper.find('button').simulate('click');
-  expect(history.push).toHaveBeenLastCalledWith('/');
+  expect(history.push).toHaveBeenLastCalledWith('/dashboard');
   expect(startRemoveExpense).toHaveBeenLastCalledWith({id: expenses[2].id});
 });
 

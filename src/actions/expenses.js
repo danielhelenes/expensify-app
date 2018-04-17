@@ -20,7 +20,8 @@ import database from '../firebase/firebase';
 });
 
 export const startAddExpense = (expenseData = {}) => {
-  return (dispatch) => { //this only works because of redux-thunk
+  return (dispatch, getState) => { //this only works because of redux-thunk
+    const uid = getState().auth.uid;
     const {
        description = '',
        note = '',
@@ -29,7 +30,7 @@ export const startAddExpense = (expenseData = {}) => {
     } = expenseData;
     const expense = { description, note, amount, createdAt };
 
-    return database.ref('expenses').push(expense).then((ref) => {
+    return database.ref(`users/${uid}/expenses`).push(expense).then((ref) => {
       dispatch(addExpense({
         id: ref.key,
         ...expense
@@ -61,8 +62,9 @@ export const removeExpense = ({ id } = {}) => ({
 });
 
 export const startRemoveExpense = ({ id } = {}) => {
-  return (dispatch) => {
-    return database.ref(`expenses/${id}`).remove().then((snapshot) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenses/${id}`).remove().then((snapshot) => {
         dispatch(removeExpense({ id }));
       });
     };
@@ -77,8 +79,9 @@ export const editExpense = (id, updates) => ({
 });
 
 export const startEditExpense = (id, updates) => {
-  return (dispatch) => {
-    return database.ref(`expenses/${id}`).update(updates).then(() => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
       dispatch(editExpense(id, updates));
     });
   };
@@ -94,8 +97,9 @@ export const setExpenses = (expenses) => ({
 //start set expenses
 
 export const startSetExpenses = () => {
-  return (dispatch) => {
-    return database.ref('expenses').once('value').then((snapshot) => { //snapshots brings all objects, not arras. we need to convert the data into an array.
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => { //snapshots brings all objects, not arras. we need to convert the data into an array.
       const expenses = [];
         snapshot.forEach((childSnapshot) => { //childSnapshot are the current objects
           expenses.push({
