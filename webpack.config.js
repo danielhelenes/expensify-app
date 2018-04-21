@@ -22,7 +22,7 @@ module.exports = (env) => {
 
   console.log('env', env);
   return { //node.js thing to be able to export what's inside of this object
-  entry: './src/app.js',
+  entry: ['babel-polyfill', './src/app.js'],
     output:{
       path: path.join(__dirname,'public', 'dist'), //where u want to put the output bundle.js - it has to be a unique path. /Users/danielferro/Desktop/tcaer/react-course-projects/indecision-app/public
       filename: 'bundle.js' //it can be any name
